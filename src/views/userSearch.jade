@@ -1,0 +1,7 @@
+html
+	head
+	body
+		a(href='/') home
+		h1 Users Found!
+		each user in matched
+			li FIRST NAME: #{user.firstname} LAST NAME: #{user.lastname} EMAIL: #{user.email},

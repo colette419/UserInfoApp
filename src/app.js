@@ -52,7 +52,7 @@ app.post('/search', function(request, response) { //post to search users
 			var matches = [];
 			for (var i = 0; i < userBase.length; i++) {
 				if (searchItem === userBase[i].firstname || searchItem === userBase[i].lastname) {
-					matches.push(JSON.stringify(userBase[i]));
+					matches.push(userBase[i]);
 					// console.log('MATCH FOUND: ' + JSON.stringify(userBase[i]));
 					// response.write('MATCH FOUND: ' + JSON.stringify(userBase[i])); response.end();
 				} else {
@@ -63,7 +63,7 @@ app.post('/search', function(request, response) { //post to search users
 			if (matches.length === 0) {
 				response.send("No match found.");
 			} else {
-				response.send("MATCH(ES) FOUND: " + matches)
+				response.render('userSearch', {matched:matches})
 			};
 		};
 	});
