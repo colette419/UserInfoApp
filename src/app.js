@@ -14,12 +14,18 @@ var express = require('express');
 var fs = require('fs');
 var app = express();
 var bodyParser = require('body-parser');
+
+
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
-app.set('views', 'src/views');
+app.use(express.static('public/stylesheets'));
+app.use(express.static('public/javascripts'));
+
+
 app.set('view engine', 'jade');
+app.set('views', 'src/views');
 
 app.get('/', function(request, response) { //displays nav links
 	response.render('index');
@@ -63,7 +69,9 @@ app.post('/search', function(request, response) { //post to search users
 			if (matches.length === 0) {
 				response.send("No match found.");
 			} else {
-				response.render('userSearch', {matched:matches})
+				response.render('userSearch', {
+					matched: matches
+				})
 			};
 		};
 	});
@@ -91,6 +99,36 @@ app.post('/add', function(request, response) { //post to add users
 			console.log('It\'s saved!');
 			response.redirect('/users');
 		});
+	});
+});
+
+app.get('/retrieveUsers', function(request, response) {
+	// console.log(request.query.colette)
+	 //retrieveUsers function
+	// var searchName = request.query.searchName;
+	// console.log(searchName);
+	fs.readFile('./users.json', function(error, data) {
+		if (error) {
+			response.send("There was an error.");
+		} else {
+			var searchName = request.query.searchName;
+			// console.log(searchName);
+			var userBase = JSON.parse(data);
+			var matches = [];
+
+			for (var i = 0; i < userBase.length; i++) {
+				if ((userBase[i].firstname.toLowerCase().indexOf(searchName.toLowerCase()) > -1)
+					|| (userBase[i].lastname.toLowerCase().indexOf(searchName.toLowerCase()) > -1))
+					// || (userBase[i].email.indexOf(searchName) > -1) taking this out because it can find things that are part of the second part of the email address
+				 {
+					matches.push(userBase[i])
+
+				}
+			};
+			response.send(matches);
+			// 
+
+		}
 	});
 });
 

@@ -1,8 +1,16 @@
 html
 	head
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+		script(src='/script.js')
+		link(href='/userInfoApp.css', rel='stylesheet')
 	body
-		a(href='/') home
+		h2
+			a(href='/') home
 		form(action='/search' method='post')
 			label search users
-			input(name='search')
+			input#form(name='search')
 			input(type='submit' value='search')
+		div
+			ul#matchingUsers
+
+				
