@@ -1,0 +1,28 @@
+/** {
+	border: 2px solid black; 
+}*/
+
+#form {
+	width: 500px;
+	font-size: 250%;
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	position: center;
+    background-color: pink;
+}
+
+ul {
+	margin-top: -15px;
+	margin-left: 40px;
+ 	list-style: none;
+}
+
+li {
+	background-color:white;
+	border: 2px solid black;
+	width: 500px;
+	font-size: 150%
+}
