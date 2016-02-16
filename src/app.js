@@ -103,10 +103,6 @@ app.post('/add', function(request, response) { //post to add users
 });
 
 app.get('/retrieveUsers', function(request, response) {
-	// console.log(request.query.colette)
-	 //retrieveUsers function
-	// var searchName = request.query.searchName;
-	// console.log(searchName);
 	fs.readFile('./users.json', function(error, data) {
 		if (error) {
 			response.send("There was an error.");
