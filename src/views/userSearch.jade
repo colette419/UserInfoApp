@@ -1,7 +1,9 @@
 html
 	head
-	body
+		title Matches
+		link(href='/userInfoApp.css', rel='stylesheet')
+	body(class="matching")
 		a(href='/') home
-		h1 Users Found!
+		h1(class="alert") Users Found!
 		each user in matched
 			li FIRST NAME: #{user.firstname} LAST NAME: #{user.lastname} EMAIL: #{user.email},

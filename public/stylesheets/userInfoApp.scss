@@ -1,0 +1,191 @@
+$green-pick: #007300;
+$primary-color: lighten($green-pick, 75%);
+$bigger-font: 150%;
+$name-tags: #990000;
+$box-shadow: 5px 2px 2px #bbb;
+$standard-font: darken($green-pick, 20%);
+
+//mixins
+
+@mixin green-nav-button {
+    a {
+        font-size: 150%;
+        text-decoration: none;
+        border: 3px solid $green-pick;
+        padding: 2px;
+        box-shadow: $box-shadow;
+
+        &:hover {
+            color: complement($green-pick);
+            background-color: darken($primary-color, 10%);
+        }
+    }
+}
+
+@mixin general-border {
+    border: 3px solid $green-pick;
+    box-shadow: $box-shadow;
+}
+
+//global
+
+body {
+    background-color: $primary-color;
+    padding-top: 20px;
+    color: $standard-font;
+}
+
+.alert {
+    color: red;
+}
+
+//index page:
+
+.index {
+    font-size: $bigger-font;
+    text-align: center;
+
+    a {
+        color: $green-pick;
+        text-decoration: none;
+        font-size: 150%;
+
+        &:hover {
+            font-size: 200%;
+            color: complement($green-pick);
+        }
+    }
+
+    h1 {
+        color: darken($green-pick, 20%);
+        border: 10px solid $green-pick;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: darken($primary-color, 10%);
+    }
+
+    h2 {
+        color: darken($green-pick, 10%);
+    }
+}
+
+// users page:
+
+.usersList {
+    color: $green-pick;
+    @include green-nav-button;
+
+    li {
+
+        &:first-child {
+            border-top: 2px solid black;
+        }
+
+        list-style: none;
+        background-color: darken($primary-color, 10%);
+        width: 100%;
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+        border-bottom: 2px solid black;
+
+        .name-tag {
+            color: $name-tags;
+            padding-left: 10px;
+        }
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    ul {
+        list-style: none;
+    }
+}
+
+//search page styling
+
+.search {
+    @include green-nav-button;
+
+    h1 {
+        text-align: center;
+    }
+
+    .button {
+        height: 50px;
+        width: 100px;
+    }
+}
+
+#searchForm {
+    @include general-border;
+
+    @extend #formToAdd;
+
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+}
+
+#searchBar {
+    width: 70%;
+    margin: 20px;
+}
+
+#matchingBox {
+    @extend #searchForm;
+
+    height: 100%;
+
+    li {
+        list-style-type: none;
+    }
+
+    a {
+        border: none;
+        box-shadow: none;
+    }
+
+    p {
+        font-size: 150%;
+    }
+}
+
+//add users styling
+
+.stylized-button {
+    font-size: 125%;
+    padding: 2px;
+
+    @include general-border;
+
+    background-color: $primary-color;
+
+    &:hover {
+        background-color: darken($primary-color, 10%);
+    }
+}
+
+.addNewUsers {
+    @include green-nav-button;
+
+    color: $standard-font;
+
+    h1 {
+        text-align: center;
+    }
+}
+
+#formToAdd {
+    text-align: center;
+    @include general-border;
+    margin: 20px;
+    padding: 20px;
+    label {
+        font-size: 150%;
+    }
+    input {
+        font-size: 150%;
+    }
+}

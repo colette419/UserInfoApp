@@ -1,7 +1,23 @@
 html
 	head
-	body
-		a(href='/') home
-		h2 Users
-		each user in users
-			li FIRST NAME: #{user.firstname} LAST NAME: #{user.lastname} EMAIL: #{user.email},
+		link(href='/userInfoApp.css', rel='stylesheet')
+		title Users List
+	body(class="usersList")
+		if users===undefined
+			a(href='/') home
+			h1(class="alert") No matching users found.
+		else 
+			a(href='/') home
+			h1(class="alert")=message
+			h1=usersHeading
+			div 
+				each user in users
+					li 
+						span.name-tag First Name: 
+						|	#{user.firstname} 
+						br
+						span.name-tag Last Name: 
+						|	#{user.lastname} 
+						br
+						span.name-tag Email: 
+						|	#{user.email}
