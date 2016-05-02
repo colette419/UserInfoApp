@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	var timeOnCompletion = 0;
-	$("#form").keyup(function() { //on keyup, do stuff
+	$("#searchForm").keyup(function() { //on keyup, do stuff
 		var inputString = $("input").val();
 		if (inputString.length === 0) {
 			$("#matchingUsers").empty();

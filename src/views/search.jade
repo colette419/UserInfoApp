@@ -3,14 +3,16 @@ html
 		script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 		script(src='/script.js')
 		link(href='/userInfoApp.css', rel='stylesheet')
-	body
-		h2
-			a(href='/') home
-		form(action='/search' method='post')
-			label search users
-			input#form(name='search')
-			input(type='submit' value='search')
-		div
-			ul#matchingUsers
-
-				
+		title Search Users
+	body(class="search")
+			a(id="homeButton" href="/") home
+			p
+			h1 Enter a name below to search existing users:
+			div#searchForm
+				form(action='/search' method='post')
+					label Search Users
+					input#searchBar(name='search')
+					input(class="stylized-button" type='submit' value='search')
+			div#matchingBox
+				p Matching users in the database will appear below:
+				ul#matchingUsers

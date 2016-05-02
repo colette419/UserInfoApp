@@ -31,18 +31,23 @@ app.get('/', function(request, response) { //displays nav links
 	response.render('index');
 });
 
+
 app.get('/users', function(req, res) { //displays users
 	fs.readFile('./users.json', function(err, data) {
 		if (err) {
 			console.log(err);
-		}
-		var parsedData = JSON.parse(data);
-		console.log(parsedData);
-		res.render("usersList", {
-			users: parsedData
-		});
+		} else {
+			var parsedData = JSON.parse(data);
+			res.render('usersList', {
+				users: parsedData,
+				message: req.query.message,
+				usersHeading: "All Users"
+			});
+		};
 	});
 });
+
+
 
 app.get('/search', function(request, response) { // renders page to search existing users
 	response.render('search');
@@ -67,10 +72,13 @@ app.post('/search', function(request, response) { //post to search users
 				}
 			};
 			if (matches.length === 0) {
-				response.send("No match found.");
+				response.render('usersList', {
+					usersHeading: "No Matching Users Found."
+				});
 			} else {
-				response.render('userSearch', {
-					matched: matches
+				response.render('usersList', {
+					users: matches,
+					usersHeading: "Matching Users"
 				})
 			};
 		};
@@ -79,27 +87,35 @@ app.post('/search', function(request, response) { //post to search users
 
 
 app.get('/add', function(request, response) { //directs to add new users form
-	response.render('add');
+	response.render('add', {
+		message: request.query.message
+	});
 });
 
 app.post('/add', function(request, response) { //post to add users
-	fs.readFile('./users.json', function(err, data) {
-		if (err) {
-			console.log(err);
-		}
-		var parsedData = JSON.parse(data); // redefining the object with the pushed data of the new user
-		parsedData.push({
-			firstname: request.body.firstname,
-			lastname: request.body.lastname,
-			email: request.body.email
-		})
-
-		fs.writeFile('./users.json', JSON.stringify(parsedData), (err) => { //writing new file with the new object plus the added users
-			if (err) throw err;
-			console.log('It\'s saved!');
-			response.redirect('/users');
-		});
-	});
+	if (request.body.firstname.trim().length === 0 || request.body.lastname.trim().length === 0 || request.body.email.trim().length === 0) {
+		response.redirect('/add?message=' + encodeURIComponent("All fields are required."))
+	} else {
+		fs.readFile('./users.json', function(err, data) {
+				if (err) {
+					console.log(err);
+				} else {
+					var parsedData = JSON.parse(data); // redefining the object with the pushed data of the new user
+					parsedData.push({
+						firstname: request.body.firstname,
+						lastname: request.body.lastname,
+						email: request.body.email
+					});
+					fs.writeFile('./users.json', JSON.stringify(parsedData), (err) => { //writing new file with the new object plus the added users
+						if (err) {
+							console.log(err)
+						} else {
+							response.redirect('/users?message=' + encodeURIComponent("User has been successfully added."));
+						}
+					});
+				};
+			});
+		};
 });
 
 app.get('/retrieveUsers', function(request, response) {
@@ -113,10 +129,9 @@ app.get('/retrieveUsers', function(request, response) {
 			var matches = [];
 
 			for (var i = 0; i < userBase.length; i++) {
-				if ((userBase[i].firstname.toLowerCase().indexOf(searchName.toLowerCase()) > -1)
-					|| (userBase[i].lastname.toLowerCase().indexOf(searchName.toLowerCase()) > -1))
-					// || (userBase[i].email.indexOf(searchName) > -1) taking this out because it can find things that are part of the second part of the email address
-				 {
+				if ((userBase[i].firstname.toLowerCase().indexOf(searchName.toLowerCase()) > -1) || (userBase[i].lastname.toLowerCase().indexOf(searchName.toLowerCase()) > -1))
+				// || (userBase[i].email.indexOf(searchName) > -1) taking this out because it can find things that are part of the second part of the email address
+				{
 					matches.push(userBase[i])
 
 				}
@@ -127,6 +142,7 @@ app.get('/retrieveUsers', function(request, response) {
 		}
 	});
 });
+
 
 
 app.listen(3000, function() { //server
